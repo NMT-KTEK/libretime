@@ -184,6 +184,10 @@ end
 default = rewrite_metadata([("title", !ref_off_air_meta)], default)
 ignore(output.dummy(default, fallible=true))
 
+autodj = input.http("http://studio2.nmt.edu:8000/fallback")
+
+default = fallback(track_sensitive = false, [autodj, default])
+
 master_dj_enabled = ref false
 live_dj_enabled = ref false
 scheduled_play_enabled = ref false
