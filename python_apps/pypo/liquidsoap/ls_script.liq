@@ -185,8 +185,8 @@ default = rewrite_metadata([("title", !ref_off_air_meta)], default)
 ignore(output.dummy(default, fallible=true))
 
 autodj = input.http("http://studio2.nmt.edu:8000/fallback")
-
-default = fallback(track_sensitive = false, [autodj, default])
+ignore(output.dummy(autodj, fallible=true))
+autodj = buffer(autodj)
 
 master_dj_enabled = ref false
 live_dj_enabled = ref false
@@ -310,6 +310,14 @@ s = if master_live_stream_port != 0 and master_live_stream_mp != "" then
 else
     s
 end
+
+
+# inject autodj into the chain
+s = fallback(id="autodj_radio_switch", 
+    track_sensitive = false, 
+    transitions=[transition, transition],
+    [strip_blank(s), autodj]
+)
 
 
 # Attach a skip command to the source s:
