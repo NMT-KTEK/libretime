@@ -145,6 +145,7 @@
         //
         // The metadata is fetched when the current track is about to end.
         function attachStreamMetadataToPlayer(){
+
             $.ajax({url: "<?php echo $this->metadata_api_url?>",
                 data: {type:"interval",limit:"5"},
                 dataType: "jsonp",
@@ -155,7 +156,28 @@
                             //Master/show source have no current track but they do have a current show.
                             $("p.now_playing").html($.i18n._("On Air") + "<span>" + data.currentShow[0].name + "</span>");
                         } else {
-                            $("p.now_playing").html($.i18n._("Off Air") + "<span>"+ $.i18n._("Offline") + "</span>");
+                            var pathArray =  html5Player.setting.url.split( '/' );
+                            var protocol = pathArray[0];
+                            var host = pathArray[2];
+                            var mount =  "/" + pathArray[3];
+                            var metadata_url = protocol + '//' + host + "/nowplaying.xsl";
+                           
+                            $.ajax({url: "metadata_url", 
+                                data: {"@mount": mount},
+                                success: function(data) {
+                                    if (data) {
+                                        $("p.now_playing").html($.i18n._("Auto DJ") + "<span>"+ data + "</span>");
+                                        console.log(data); 
+                                    } else {
+                                        $("p.now_playing").html($.i18n._("Off Air") + "<span>"+ $.i18n._("Offline") + "</span>");
+                                        console.log("Empty Metadata fetch")
+                                    }
+                                },
+                                failure: function() {
+                                    $("p.now_playing").html($.i18n._("Off Air") + "<span>"+ $.i18n._("Offline") + "</span>");
+                                    console.log("Failed Metadata fetch")
+                                }
+                            })
                         }
                         time_to_next_track_starts = 20000;
                     } else {
