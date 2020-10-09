@@ -156,7 +156,7 @@
                             //Master/show source have no current track but they do have a current show.
                             $("p.now_playing").html($.i18n._("On Air") + "<span>" + data.currentShow[0].name + "</span>");
                         } else {
-                            var pathArray =  html5Player.setting.url.split( '/' );
+                            var pathArray =  html5Player.settings.url.split( '/' );
                             var protocol = pathArray[0];
                             var host = pathArray[2];
                             var mount =  "/" + pathArray[3];
