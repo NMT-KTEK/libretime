@@ -162,7 +162,7 @@
                             var mount =  "/" + pathArray[3];
                             var metadata_url = protocol + '//' + host + "/nowplaying.xsl";
                            
-                            $.ajax({url: "metadata_url", 
+                            $.ajax({url: metadata_url, 
                                 data: {"@mount": mount},
                                 success: function(data) {
                                     if (data) {
