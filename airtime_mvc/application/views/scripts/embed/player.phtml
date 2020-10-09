@@ -163,7 +163,7 @@
                             var metadata_url = protocol + '//' + host + "/nowplaying.xsl";
                            
                             $.ajax({url: metadata_url, 
-                                data: {"mount": mount},
+                                data: {"mount": "/fallback"},
                                 success: function(data) {
                                     if (data) {
                                         $("p.now_playing").html($.i18n._("Auto DJ") + "<span>"+ data + "</span>");
