@@ -188,6 +188,13 @@ autodj = mksafe(input.http("http://studio2.nmt.edu:8000/fallback"))
 ignore(output.dummy(autodj, fallible=true))
 autodj = buffer(autodj)
 
+# inject autodj into the chain
+stream_queue = fallback(id="autodj_radio_switch", 
+    track_sensitive = false, 
+    transitions=[transition_default, transition],
+    [strip_blank(max_blank=50., threshold=-45., stream_queue), autodj]
+)
+
 master_dj_enabled = ref false
 live_dj_enabled = ref false
 scheduled_play_enabled = ref false
@@ -326,12 +333,7 @@ else
 end
 
 
-# inject autodj into the chain
-s = fallback(id="autodj_radio_switch", 
-    track_sensitive = false, 
-    transitions=[transition, transition],
-    [strip_blank(s), autodj]
-)
+
 
 
 # Attach a skip command to the source s:
