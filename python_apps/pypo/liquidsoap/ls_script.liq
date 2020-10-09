@@ -186,7 +186,6 @@ ignore(output.dummy(default, fallible=true))
 
 autodj = mksafe(input.http("http://studio2.nmt.edu:8000/fallback"))
 ignore(output.dummy(autodj, fallible=true))
-autodj = buffer(autodj)
 
 # inject autodj into the chain
 stream_queue = fallback(id="autodj_radio_switch", 
